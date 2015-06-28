@@ -38,44 +38,44 @@ public class EstadosExpedientes extends javax.swing.JFrame {
     /**
      * Creates new form AdministrarExpedientes
      */
-    
     JFrame parent;
     DBconection con;
     DefaultTableModel modelo;
-    
+
     public EstadosExpedientes(JFrame pare) throws Exception {
-        parent= pare;    
+        parent = pare;
         initComponents();
         jButton7.setVisible(false);
-        con= DBconection.getDBConection();
+        con = DBconection.getDBConection();
         llenarTabla();
         llenarLista();
         tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.setVisible(true);
     }
-    
-    public void llenarTabla(){
+
+    public void llenarTabla() {
         try {
-             modelo=ViewModel.setExpedientesTableModel(tabla, con.getExpedientes());
+            modelo = ViewModel.setExpedientesTableModel(tabla, con.getExpedientes());
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al conectarse con la Base de Datos. Intente establecer la conexion o contacte con el administrador");
             System.exit(0);
         }
     }
-    
-    public void llenarLista(){
-         try {
-             DefaultComboBoxModel model= new DefaultComboBoxModel();
-             ArrayList<Hospital> hospitales=con.getHospitales();
-             for (int i=0; i<hospitales.size(); i++){
-                 model.addElement(hospitales.get(i).getNombre());
-             }
+
+    public void llenarLista() {
+        try {
+            DefaultComboBoxModel model = new DefaultComboBoxModel();
+            ArrayList<Hospital> hospitales = con.getHospitales();
+            for (int i = 0; i < hospitales.size(); i++) {
+                model.addElement(hospitales.get(i).getNombre());
+            }
             lista.setModel(model);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al conectarse con la Base de Datos. Intente establecer la conexion o contacte con el administrador");
             System.exit(0);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -358,8 +358,8 @@ public class EstadosExpedientes extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-         try {
-             modelo=ViewModel.setExpedientesTableModel(tabla, con.getExpedientes("Expediente", expe.getText()));
+        try {
+            modelo = ViewModel.setExpedientesTableModel(tabla, con.getExpedientes("Expediente", expe.getText()));
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al conectarse con la Base de Datos. Intente establecer la conexion o contacte con el administrador");
             System.exit(0);
@@ -371,24 +371,25 @@ public class EstadosExpedientes extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaComponentShown
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        if (jComboBox1.getSelectedItem().toString().equals("Todos")){
+        if (jComboBox1.getSelectedItem().toString().equals("Todos")) {
             llenarTabla();
-        }else{
-        try {
-             modelo=ViewModel.setExpedientesTableModel(tabla, con.getExpedientes("Pagina", jComboBox1.getSelectedItem().toString()));         
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al conectarse con la Base de Datos. Intente establecer la conexion o contacte con el administrador");
-            System.exit(0);
-        }
+        } else {
+            try {
+                modelo = ViewModel.setExpedientesTableModel(tabla, con.getExpedientes("Pagina", jComboBox1.getSelectedItem().toString()));
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al conectarse con la Base de Datos. Intente establecer la conexion o contacte con el administrador");
+                System.exit(0);
+            }
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         try {
-             if (lista.getSelectedItem()==null) llenarTabla();
-             else{
-                modelo=ViewModel.setExpedientesTableModel(tabla, con.getExpedientes("Caratula", con.getHospitales("hospital", lista.getSelectedItem().toString()).get(0).getCaratula()));   
-             }
+        try {
+            if (lista.getSelectedItem() == null) {
+                llenarTabla();
+            } else {
+                modelo = ViewModel.setExpedientesTableModel(tabla, con.getExpedientes("Caratula", con.getHospitales("hospital", lista.getSelectedItem().toString()).get(0).getCaratula()));
+            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al conectarse con la Base de Datos. Intente establecer la conexion o contacte con el administrador");
             System.exit(0);
@@ -398,69 +399,71 @@ public class EstadosExpedientes extends javax.swing.JFrame {
     @SuppressWarnings("empty-statement")
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        JFileChooser file= new JFileChooser();
-        int dir= file.showSaveDialog(this);
+        JFileChooser file = new JFileChooser();
+        int dir = file.showSaveDialog(this);
         String name;
-        if (dir==JFileChooser.APPROVE_OPTION){
-        name= file.getSelectedFile().getAbsolutePath();
-        if (name.endsWith(".xls")) name=name.substring(0, name.length()-4);
-        if (name==null || name.equals("")){
-            JOptionPane.showMessageDialog(null, "Debe ingresar un nombre para el archivo de la planilla");
-        }else{
-        boolean ok=false;
-        FileInputStream test;
-        try {
-            test= new FileInputStream(name+".xls");
-             int seleccion = JOptionPane.showOptionDialog(
-                    this, // Componente padre
-                    "El archivo con el nombre "+name+" ya existe, ¿Desea sobreescribirlo?", //Mensaje
-                    "Advertencia", // Título
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,    // null para icono por defecto.
-                    new Object[] { "Si", "No"},// null para YES, NO y CANCEL
-                    "Si");
-                    if (seleccion != -1){
-                        if((seleccion + 1)==1){
-                            ok=true;
+        if (dir == JFileChooser.APPROVE_OPTION) {
+            name = file.getSelectedFile().getAbsolutePath();
+            if (name.endsWith(".xls")) {
+                name = name.substring(0, name.length() - 4);
+            }
+            if (name == null || name.equals("")) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un nombre para el archivo de la planilla");
+            } else {
+                boolean ok = false;
+                FileInputStream test;
+                try {
+                    test = new FileInputStream(name + ".xls");
+                    int seleccion = JOptionPane.showOptionDialog(
+                            this, // Componente padre
+                            "El archivo con el nombre " + name + " ya existe, ¿Desea sobreescribirlo?", //Mensaje
+                            "Advertencia", // Título
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null, // null para icono por defecto.
+                            new Object[]{"Si", "No"},// null para YES, NO y CANCEL
+                            "Si");
+                    if (seleccion != -1) {
+                        if ((seleccion + 1) == 1) {
+                            ok = true;
                         }
                     }
-        } catch (FileNotFoundException ex){
-            ok=true;
-        }
-        if (ok){
-        HSSFWorkbook libro= new HSSFWorkbook();
-        HSSFSheet hoja= libro.createSheet();
-        HSSFRow fila;
-        HSSFCell celda;
-        fila = hoja.createRow(0);
-        for (int i=0; i<modelo.getColumnCount(); i++){
-                 celda=fila.createCell(i);
-                 HSSFRichTextString texto = new HSSFRichTextString((String)(modelo.getColumnName(i)));
-                 celda.setCellValue(texto);
-        }
-        for (int i=0; i<modelo.getRowCount(); i++){
-             fila = hoja.createRow(i+1);
-             for (int k=0; k<modelo.getColumnCount();k++){
-                 celda=fila.createCell(k);
-                 HSSFRichTextString texto = new HSSFRichTextString((String)(modelo.getValueAt(i, k)));
-                 celda.setCellValue(texto);
-             }
-        }
-        
-        FileOutputStream elFichero;
-        try {
-            elFichero = new FileOutputStream(name+".xls");
-            libro.write(elFichero);
-            elFichero.close();
-            JOptionPane.showMessageDialog(null, "Se genero la planilla correctamente");
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al crear la planilla de Excel. Recuerde que el nombre del archivo no puede contener ninguno de los siguientes caracteres: \\ / : * ? \"< > | Intentelo nuevamente y si el problema persiste contacte con el administrador.");
-            System.out.println(ex);
-            System.exit(0);
-        }
-        }
-        }
+                } catch (FileNotFoundException ex) {
+                    ok = true;
+                }
+                if (ok) {
+                    HSSFWorkbook libro = new HSSFWorkbook();
+                    HSSFSheet hoja = libro.createSheet();
+                    HSSFRow fila;
+                    HSSFCell celda;
+                    fila = hoja.createRow(0);
+                    for (int i = 0; i < modelo.getColumnCount(); i++) {
+                        celda = fila.createCell(i);
+                        HSSFRichTextString texto = new HSSFRichTextString((String) (modelo.getColumnName(i)));
+                        celda.setCellValue(texto);
+                    }
+                    for (int i = 0; i < modelo.getRowCount(); i++) {
+                        fila = hoja.createRow(i + 1);
+                        for (int k = 0; k < modelo.getColumnCount(); k++) {
+                            celda = fila.createCell(k);
+                            HSSFRichTextString texto = new HSSFRichTextString((String) (modelo.getValueAt(i, k)));
+                            celda.setCellValue(texto);
+                        }
+                    }
+
+                    FileOutputStream elFichero;
+                    try {
+                        elFichero = new FileOutputStream(name + ".xls");
+                        libro.write(elFichero);
+                        elFichero.close();
+                        JOptionPane.showMessageDialog(null, "Se genero la planilla correctamente");
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, "Error al crear la planilla de Excel. Recuerde que el nombre del archivo no puede contener ninguno de los siguientes caracteres: \\ / : * ? \"< > | Intentelo nuevamente y si el problema persiste contacte con el administrador.");
+                        System.out.println(ex);
+                        System.exit(0);
+                    }
+                }
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -476,52 +479,60 @@ public class EstadosExpedientes extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        try {
-        JFileChooser file= new JFileChooser();
-        int dir= file.showOpenDialog(this);
-        String name;
-        if (dir==JFileChooser.APPROVE_OPTION){
-            name= file.getSelectedFile().getAbsolutePath();
-            FileInputStream fichero= new FileInputStream(name);
-            HSSFWorkbook libro= new HSSFWorkbook(fichero);
-            HSSFSheet hoja= libro.getSheetAt(0);
-            Iterator<Row> iteradorFila= hoja.rowIterator();
-            Iterator<Cell> iteradorCelda;
-            Row row;
-            Cell cell;
-            if (iteradorFila.hasNext()) iteradorFila.next();
-                while (iteradorFila.hasNext()){
-                    row = iteradorFila.next();
-                    iteradorCelda= row.cellIterator();
-                    iteradorCelda.next();
-                    cell=iteradorCelda.next();
-                    Expediente expediente= new Expediente(cell.getStringCellValue());
-                    Estados state= expediente.getEstado();
-                    cell=iteradorCelda.next();
-                    state.setFechaE(cell.getStringCellValue());
-                    cell=iteradorCelda.next();
-                    state.setFechaR(cell.getStringCellValue());
-                    cell=iteradorCelda.next();
-                    state.setEstado(cell.getStringCellValue());
-                    cell=iteradorCelda.next();
-                    state.setFactura(cell.getStringCellValue());
-                    con.addExpediente(expediente);    
+        int aux=0;
+        try {      
+            JFileChooser file = new JFileChooser();
+            int dir = file.showOpenDialog(this);
+            String name;
+            if (dir == JFileChooser.APPROVE_OPTION) {
+                name = file.getSelectedFile().getAbsolutePath();
+                FileInputStream fichero = new FileInputStream(name);
+                HSSFWorkbook libro = new HSSFWorkbook(fichero);
+                HSSFSheet hoja = libro.getSheetAt(0);
+                Iterator<Row> iteradorFila = hoja.rowIterator();
+                Iterator<Cell> iteradorCelda;
+                Row row;
+                Cell cell;
+                if (iteradorFila.hasNext()) {
+                    iteradorFila.next();
                 }
-            JOptionPane.showMessageDialog(null, "Se importo el archivo correctamente");
-            llenarTabla();
-        }
+                while (iteradorFila.hasNext()) {
+                    row = iteradorFila.next();
+                    iteradorCelda = row.cellIterator();
+                    iteradorCelda.next();
+                    cell = iteradorCelda.next();
+                    Expediente expediente = new Expediente(cell.getStringCellValue());
+                    Estados state = expediente.getEstado();
+                    cell = iteradorCelda.next();
+                    state.setFechaE(cell.getStringCellValue());
+                    cell = iteradorCelda.next();
+                    state.setFechaR(cell.getStringCellValue());
+                    cell = iteradorCelda.next();
+                    state.setEstado(cell.getStringCellValue());
+                    cell = iteradorCelda.next();
+                    state.setFactura(cell.getStringCellValue());
+                    con.addExpediente(expediente);
+                    aux++;
+                }
+                JOptionPane.showMessageDialog(null, "Se importo el archivo correctamente");
+                llenarTabla();
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al conectarse con la Base de Datos. Intente establecer la conexion o contacte con el administrador");
             System.out.println(ex.toString());
             System.exit(0);
         } catch (FileNotFoundException ex) {
-              JOptionPane.showMessageDialog(null, "Error al importar el archivo. Intentelo nuevamente y si el problema persiste contacte al administrador");
-              System.out.println(ex.toString());
+            JOptionPane.showMessageDialog(null, "Error al importar el archivo. Intentelo nuevamente y si el problema persiste contacte al administrador");
+            System.out.println(ex.toString());
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar la planilla de Excel. contacte con el administrador");
             System.out.println(ex.toString());
             System.exit(0);
-        }        // TODO add your handling code here:
+        }catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar la planilla de Excell. contacte con el administrador");
+            System.out.println(aux);
+            System.exit(0);
+        }// TODO add your handling code here:
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
