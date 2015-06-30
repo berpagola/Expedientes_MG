@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Tue Jun 02 10:30:37 ART 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-014d-b477-75b2-000002b65790 
-on database directory /home/bernardo/NetBeansProjects/MGInsumos/.\DB\MGinsumosDB with class loader sun.misc.Launcher$AppClassLoader@7f31245a 
-Loaded from file:/home/bernardo/NetBeansProjects/MGInsumos/derby.jar
+Mon Jun 29 09:38:11 ART 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-014e-3f53-2a2a-000007201838 
+on database directory C:\Users\Ber.pagola\Documents\NetBeansProjects\ExpedientesMG\DB\MGinsumosDB with class loader sun.misc.Launcher$AppClassLoader@7f31245a 
+Loaded from file:/C:/Users/Ber.pagola/Documents/NetBeansProjects/ExpedientesMG/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_45-b14
-user.dir=/home/bernardo/NetBeansProjects/MGInsumos
-os.name=Linux
+java.runtime.version=1.8.0_45-b15
+user.dir=C:\Users\Ber.pagola\Documents\NetBeansProjects\ExpedientesMG
+os.name=Windows 8.1
 os.arch=amd64
-os.version=3.16.0-38-generic
+os.version=6.3
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
